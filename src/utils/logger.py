@@ -1,6 +1,7 @@
-import logging
 import json
+import logging
 import sys
+
 
 class JsonFormatter(logging.Formatter):
     def format(self, record):
@@ -13,18 +14,19 @@ class JsonFormatter(logging.Formatter):
         # Add extra fields if available
         if hasattr(record, "props"):
             log_obj.update(record.props)
-            
+
         return json.dumps(log_obj)
+
 
 def get_logger(name: str):
     logger = logging.getLogger(name)
     logger.setLevel(logging.INFO)
-    
+
     handler = logging.StreamHandler(sys.stdout)
     handler.setFormatter(JsonFormatter())
-    
+
     # Prevent duplicate handlers
     if not logger.handlers:
         logger.addHandler(handler)
-        
+
     return logger

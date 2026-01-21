@@ -12,7 +12,7 @@ lint:
 	mypy src
 
 test:
-	pytest tests/
+	PYTHONPATH=. pytest tests/
 
 clean:
 	find . -type d -name "__pycache__" -exec rm -rf {} +

@@ -61,6 +61,22 @@ python run_experiments.py
 
 Results will be saved to `reports/`.
 
+### Observed results (synthetic simulator, 2,000 rounds)
+
+Total-reward uplift vs `RandomPolicy`, from one run of the experiment loop with simulator seeds 42 / 1 / 7 (Apple M-series Mac, our own run):
+
+| Policy | seed 42 | seed 1 | seed 7 |
+|---|---|---|---|
+| EpsilonGreedy (eps=0.1) | +49.4% | +26.2% | +19.2% |
+| LinUCB (alpha=1.0) | +45.2% | +18.6% | +42.8% |
+| Thompson Sampling | +47.2% | +7.2% | +58.7% |
+
+Uplift varies widely by seed, and results are not fully reproducible: the policies' own random number generators are unseeded, so repeating seed 7 gave LinUCB +23.6% and Thompson Sampling +46.2% in an earlier run. Treat these as a rough range, not a headline number. Everything is on simulated data with a hand-written reward function, so it says nothing about real collections performance.
+
+**Limitations of the evaluation**
+- Regret is computed from noisy sampled rewards rather than expected rewards, and policies are compared on unpaired RNG streams (they do not see the same customers), so regret and uplift carry sampling noise.
+- No latency or explainability-coverage benchmark is committed; earlier claims of "<10ms" and "100% transparency" were removed.
+
 ## ⚡ API Usage
 
 The API trains a model on startup using the simulator (Warm Start) so it's ready to serve immediately.
